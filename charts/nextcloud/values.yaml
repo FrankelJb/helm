@@ -53,10 +53,10 @@ ingress:
   #       - nextcloud.kube.home
   labels: {}
 
-
 # Allow configuration of lifecycle hooks
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
-lifecycle: {}
+lifecycle:
+  {}
   # postStartCommand: []
   # preStopCommand: []
 
@@ -164,7 +164,6 @@ nextcloud:
   extraVolumeMounts:
   #  - name: nfs
   #    mountPath: "/legacy_data"
-
   # Extra secuurityContext parameters. For example you may need to define runAsNonRoot directive
   # extraSecurityContext:
   #   runAsUser: "33"
@@ -261,15 +260,24 @@ postgresql:
 redis:
   enabled: false
   usePassword: true
-  password: 'changeme'
+  password: "changeme"
 
+ffmpeg:
+  enabled: false
+   
+  image:
+    repository: linuxserver/ffmpeg
+    tag: latest
+    pullPolicy: IfNotPresent
+  
 ## Cronjob to execute Nextcloud background tasks
 ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#webcron
 ##
 cronjob:
   enabled: false
   # Nexcloud image is used as default but only curl is needed
-  image: {}
+  image:
+    {}
     # repository: nextcloud
     # tag: 16.0.3-apache
     # pullPolicy: IfNotPresent
@@ -286,23 +294,20 @@ cronjob:
   successfulJobsHistoryLimit: 2
   # If not set, nextcloud deployment one will be set
   # resources:
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #  cpu: 100m
-    #  memory: 128Mi
-    # requests:
-    #  cpu: 100m
-    #  memory: 128Mi
-
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
   # If not set, nextcloud deployment one will be set
   # nodeSelector: {}
-
   # If not set, nextcloud deployment one will be set
   # tolerations: []
-
   # If not set, nextcloud deployment one will be set
   # affinity: {}
 
@@ -336,7 +341,8 @@ persistence:
   accessMode: ReadWriteOnce
   size: 8Gi
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -373,7 +379,6 @@ startupProbe:
   failureThreshold: 30
   successThreshold: 1
 
-
 ## Enable pod autoscaling using HorizontalPodAutoscaler
 ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 ##
@@ -388,7 +393,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
 
 ## Prometheus Exporter / Metrics
 ##

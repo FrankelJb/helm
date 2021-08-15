@@ -274,6 +274,11 @@ spec:
         {{- if .Values.nextcloud.extraVolumeMounts }}
 {{ toYaml .Values.nextcloud.extraVolumeMounts | indent 8 }}
         {{- end }}
+        {{- if .Values.ffmpeg.enabled }}
+      - name: {{ .Chart.Name }}-ffmpeg
+        image: "{{ .Values.ffmpeg.image.repository }}:{{ .Values.ffmpeg.image.tag }}"
+        imagePullPolicy: {{ .Values.ffmpeg.image.pullPolicy }}
+        {{- end }}
         {{- if .Values.nginx.enabled }}
       - name: {{ .Chart.Name }}-nginx
         image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
